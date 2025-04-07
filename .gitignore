@@ -1,0 +1,68 @@
+# --- Python Virtual Environment ---
+venv/
+.venv/
+env/
+.env/
+ENV/
+*/venv/
+*/.venv/
+
+Lib/
+Scripts/
+share/
+pyvenv.cfg
+
+
+# --- Secrets ---
+.env
+*.env
+
+# --- Python cache and compiled files ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# --- Distribution / packaging ---
+build/
+dist/
+*.egg-info/
+sdist/
+*.egg
+wheels/
+
+# --- Testing ---
+.pytest_cache/
+.hypothesis/
+htmlcov/
+.coverage
+*.coverage
+coverage.xml
+
+# --- Jupyter Notebook ---
+.ipynb_checkpoints
+
+# --- IDE specific files (VS Code) ---
+# User-specific settings, workspace state, debug configs (can sometimes be shared, but safer ignored by default)
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# --- Operating System specific files (Windows) ---
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# --- Log files ---
+*.log
+*.log.*
+
+# --- Temporary files ---
+*.tmp
+*.~
+*.swp
+*.swo
