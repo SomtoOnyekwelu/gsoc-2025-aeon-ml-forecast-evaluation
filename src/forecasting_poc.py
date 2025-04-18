@@ -18,6 +18,7 @@ DEFAULT_FILTER_VAL = 'no2'
 N_LAGS_DEFAULT = 5
 TRAIN_TEST_SPLIT_RATIO_DEFAULT = 0.8
 
+
 # --- Functions ---
 
 def load_and_prepare_data(filepath: str,
@@ -107,7 +108,6 @@ def load_and_prepare_data(filepath: str,
         df = df[~df.index.duplicated(keep='first')]
         print(f"    Removed duplicates, keeping first occurrences. Shape now: {df.shape}")
 
-
     # Select the target column
     time_series = df[target_col]
 
@@ -126,6 +126,7 @@ def load_and_prepare_data(filepath: str,
 
     print(f"--> Data loading and preparation complete. Final series length: {len(time_series)}")
     return time_series
+
 
 def create_lagged_features(series: pd.Series, n_lags: int) -> pd.DataFrame:
     """
@@ -162,6 +163,7 @@ def create_lagged_features(series: pd.Series, n_lags: int) -> pd.DataFrame:
 
     print(f"    Lagged features DataFrame created with shape {df_features.shape}.")
     return df_features
+
 
 def train_evaluate_forecaster(series: pd.Series, n_lags: int, split_ratio: float):
     """
@@ -218,7 +220,7 @@ def train_evaluate_forecaster(series: pd.Series, n_lags: int, split_ratio: float
         raise ValueError("Train or test set is unexpectedly empty after splitting.")
 
     # 4. Train Placeholder Model
-    print(f"--> Training placeholder RandomForestRegressor (n_estimators=50, n_jobs=1)...")
+    print("--> Training placeholder RandomForestRegressor (n_estimators=50, n_jobs=1)...")
     # Using RandomForest: tree-based, common ML baseline. Fixed state & jobs=1 for PoC reproducibility.
     # Full GSoC: Implement SETAR-Tree and evaluate vs. aeon baselines (KNeighbors, Rocket, TSF, Dummy).
     model = RandomForestRegressor(n_estimators=50, random_state=42, n_jobs=1)
@@ -242,6 +244,7 @@ def train_evaluate_forecaster(series: pd.Series, n_lags: int, split_ratio: float
     print("Note: Actual GSoC project would include SETAR-Tree & GBM implementation,")
     print("      rigorous time series cross-validation, benchmark datasets,")
     print("      standardized metrics (e.g., MASE), and robustness analysis.")
+
 
 # --- Main Execution Block ---
 if __name__ == "__main__":
@@ -271,20 +274,19 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     print("--- Running Forecasting PoC Script ---")
-    print(f"Configuration:")
+    print("Configuration:")
     print(f"  Data File:      {args.data}")
     print(f"  Time Column:    {args.time_col}")
     print(f"  Target Column:  {args.target_col}")
     if args.filter_col and args.filter_val:
       print(f"  Filtering:      '{args.filter_col}' == '{args.filter_val}'")
     elif args.filter_col or args.filter_val:
-      print(f"  Filtering:      DISABLED (requires both --filter_col and --filter_val)")
+      print("  Filtering:      DISABLED (requires both --filter_col and --filter_val)")
     else:
-       print(f"  Filtering:      DISABLED (no filter args provided)")
+       print("  Filtering:      DISABLED (no filter args provided)")
     print(f"  Num Lags:       {args.n_lags}")
     print(f"  Train Split:    {args.split_ratio:.1%}")
     print("--------------------------------------")
-
 
     try:
         # Execute main workflow
@@ -304,7 +306,7 @@ if __name__ == "__main__":
              print("Consider using fewer lags (--n_lags), a different filter, or more initial data.")
 
     except (FileNotFoundError, ValueError, TypeError, IOError) as e:
-        print(f"\n--- SCRIPT FAILED ---")
+        print("\n--- SCRIPT FAILED ---")
         print(f"Error Type: {type(e).__name__}")
         print(f"Message: {e}")
         print("Please check file paths, column names, data format, and parameters.")
@@ -312,11 +314,10 @@ if __name__ == "__main__":
 
     except Exception as e:
         # Catch-all for unexpected errors during development/execution
-        print(f"\n--- UNEXPECTED CRITICAL ERROR ---")
+        print("\n--- UNEXPECTED CRITICAL ERROR ---")
         import traceback
-        traceback.print_exc() # Print full traceback for debugging
+        traceback.print_exc()   # Print full traceback for debugging
         print(f"Error: {e}")
         print("-------------------------------")
-
 
     print("\n--- PoC Script Finished ---")
